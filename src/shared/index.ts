@@ -17,12 +17,12 @@ export interface Task {
   data: string;
 }
 
-export interface TaskResult {
-  taskId: string;
-  result: string;
+export interface TaskRequest {
+  type: TaskType;
+  data: string;
 }
 
 export interface QueueMessage {
   task: Task;
-  priority: number;
 }
+

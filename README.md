@@ -1,0 +1,1 @@
+# node-typescript-rabbitmq-server-worker-test

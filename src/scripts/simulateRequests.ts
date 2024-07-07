@@ -1,32 +1,34 @@
 import axios from 'axios';
-import { TaskType, TaskPriority } from '@/shared';
+import { TaskType, TaskRequest } from '@/shared';
 
 const SERVER_URL = 'http://localhost:3000';
 
 async function simulateRequests() {
-  const tasks = [
-    { type: TaskType.DATA_PROCESSING, priority: TaskPriority.LOW, data: 'Sample data 1' },
-    { type: TaskType.IMAGE_RECOGNITION, priority: TaskPriority.MEDIUM, data: 'Sample image data' },
-    { type: TaskType.TEXT_ANALYSIS, priority: TaskPriority.HIGH, data: 'Sample text for analysis' },
-    { type: TaskType.DATA_PROCESSING, priority: TaskPriority.HIGH, data: 'Urgent data processing' },
-    { type: TaskType.IMAGE_RECOGNITION, priority: TaskPriority.LOW, data: 'Low priority image' },
+  const taskRequests: TaskRequest[] = [
+    { type: TaskType.DATA_PROCESSING, data: 'Process customer data' },
+    { type: TaskType.IMAGE_RECOGNITION, data: 'Analyze satellite imagery' },
+    { type: TaskType.TEXT_ANALYSIS, data: 'Sentiment analysis on customer reviews' },
+    { type: TaskType.DATA_PROCESSING, data: 'Generate monthly financial report' },
+    { type: TaskType.IMAGE_RECOGNITION, data: 'Facial recognition for security system' },
   ];
 
-  for (const task of tasks) {
+  console.log("Starting to send task requests...");
+
+  for (const request of taskRequests) {
     try {
-      const response = await axios.post(`${SERVER_URL}/task`, task, {
-        params: { priority: task.priority }
-      });
-      console.log(`Task sent: ${JSON.stringify(task)}`);
+      const response = await axios.post(`${SERVER_URL}/task`, request);
+      console.log(`Task request sent: ${JSON.stringify(request)}`);
       console.log(`Server response: ${JSON.stringify(response.data)}\n`);
     } catch (error) {
-      console.error(`Error sending task: ${JSON.stringify(task)}`);
+      console.error(`Error sending task request: ${JSON.stringify(request)}`);
       console.error(error);
     }
 
     // Wait for 1 second before sending the next request
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
+
+  console.log("All task requests sent. Worker should now process the generated tasks in order of priority.");
 }
 
 simulateRequests().catch(console.error);
